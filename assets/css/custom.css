@@ -2,3 +2,6 @@ tbody tr:nth-child(even) { background-color: none; }
 button { border-raius: none; }
 
 .chapters-container { padding-top: 0vh; padding-left: 2vw; }
+
+.post-custom { width: 80%; }
+@media screen and (max-width: 768px) { .custom-include { width: 100%; } }
