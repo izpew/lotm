@@ -25,6 +25,12 @@ defaults:
     values:
       author: "Tessera"
       image: /preview.jpg
+  -
+    scope:
+      path: ""
+      type: "chapters"
+    values:
+      image: /preview.jpg
       
 collections:
   chapters:
