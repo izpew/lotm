@@ -548,7 +548,7 @@ label[for="toggleshare"] {
 #right-container {
 	width: 20%;
 	padding: 0 0vw 0;
-	margin-left: 0vw;
+	margin-left: 1vw;
 /* Uncomment this if you want sticky behavior
 	position: sticky;
 	top: 0;
