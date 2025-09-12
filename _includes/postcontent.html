@@ -1,13 +1,13 @@
 <!-- Tags -->
 <div class="post">
+	{% for category in page.categories %}
 	<div class="post-postcategories">
 		<h3>
-		{% for category in page.categories %}
 			<a href="/categories/{{ category | downcase | url_encode }}/">{{ category }}</a>{% unless forloop.last %} | {% endunless %}
-		{% endfor %}
 		</h3>
 	</div>
-
+	{% endfor %}
+	
 	<div class="post-posttitle">
 		<h1>{{ page.title }}</h1>
 	</div>
