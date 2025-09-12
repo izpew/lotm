@@ -285,7 +285,8 @@ blockquote {
 }
 .post-postcontent {
 	max-width: 95%;
-	text-align: justify;
+	margin-top: 10px;
+	text-align: center;
 }
 
 .post-postcontent img {
@@ -297,7 +298,7 @@ blockquote {
 }
 
 .post-posttitle {
-	max-width: 95%;
+	margin: 0 auto;
 	text-align: center;
 }
 
