@@ -25,5 +25,8 @@ defaults:
     values:
       author: "Tessera"
       image: /preview.jpg
+      
+paginate: 9
+paginate_path: "/page:num/"
 
 date_format: "%Y.%m.%d"
