@@ -2,8 +2,3 @@ tbody tr:nth-child(even) { background: none; }
 button { border-raius: 0px; }
 
 .chapters-container { padding-top: 0vh; padding-left: 2vw; }
-
-.post-custom { width: 80%; }
-.post-postcontent img { object-fit: none; }
-@media screen and (max-width: 768px) { .custom-include { width: 100%; } }
-@media only screen and (max-width: 768px) and (max-aspect-ratio: 1 / 1) { .post-postcontent img { object-fit: none; } }
