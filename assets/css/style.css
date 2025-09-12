@@ -876,7 +876,7 @@ button {
 	#left-container {
 		width: 90%;
 		padding: 0 0vw 0;
-		margin-left: 0vw;
+		margin-left: 2vw;
 		padding-bottom: 1rem;
 	}
 
@@ -917,7 +917,7 @@ button {
 	#right-container {
 		width: 90%;
 		padding: 0 0vw 0;
-		margin-left: 0vw;
+		margin-left: 2vw;
 	}
 
 }
