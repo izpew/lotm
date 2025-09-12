@@ -2,3 +2,11 @@
 	padding-top: 0vh;
 	padding-left: 2vw;
 }
+.post-postcontent {
+	margin-top: 10px;
+	text-align: center;
+}
+.post-posttitle {
+	margin: auto;
+	text-align: center;
+}
