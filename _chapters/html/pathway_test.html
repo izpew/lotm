@@ -1,29 +1,37 @@
 <html>
 <head>
+  <meta charset="UTF-8">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    table {
+    .question {
       border-collapse: collapse;
       width: 100%;
     }
-    th, td {
+    .question th, td {
       border: 1px solid #aaa;
       padding: 10px;
       text-align: center;
     }
-    th {
+    .question th {
       background-color: #ccc;
     }
     td.question-text {
       text-align: left;
     }
-    button {
-      padding: 10px 20px;
+    .question input[type="radio"] {
+      width: 20px;
+	  height: 20px;
+	  accent-color: black;
+    }
+    .submit-container {
+	  width: 100%;
+      margin-top: 20px;
+    }
+    .submit-container button {
+	  width: 100%;
+      padding: 20px;
     }
     #result {
+	  width: 100%;
       margin-top: 30px;
     }
 	.icon { width: 30px; height: auto; vertical-align: middle; margin-right: 10px }
@@ -36,7 +44,7 @@
   <p>테스트를 통해 22개의 경로 중 당신의 성향에 가장 적합한 특성 세 가지를 탐색합니다.<br>각 문항을 읽어보고 플레이어 또는 캐릭터의 입장에서 흥미를 느끼는 정도에 체크해주세요.</p>
 
   <form id="surveyForm">
-    <table id="questionTable">
+    <table class="question" id="questionTable">
       <thead>
         <tr>
           <th>번호</th>
@@ -51,11 +59,12 @@
       </tbody>
     </table>
   </form>
-	
-    <div>
-	<button type="submit" form="surveyForm">제출</button>
-    </div>
 
+
+    <div class="submit-container">
+      <button type="submit" form="surveyForm">제출하기</button>
+    </div>
+	
   <div id="result"></div>
 
   <!-- ✅ 질문 데이터 삽입 (로컬 테스트용 JSON) -->
@@ -448,7 +457,7 @@
 		})
 		.slice(0, 3);
 
-	  resultDiv.innerHTML = "<h2>테스트 결과 추천하는 상위 3개 경로</h2><span style='color:red; font-size:0.8em'>★이 붙어있는 경로는 특성 상 시나리오 중에서 빌런 역할을 담당하는 경우가 많으며, 플레이어 캐릭터로 사용하는데 제약이 생길 수 있으므로 선택에 참고해주세요.</span><br>";
+	  resultDiv.innerHTML = "<h2>추천하는 상위 3개 경로</h2><span style='color:red; font-size:0.8em'>★이 붙어있는 경로는 특성 상 시나리오 중에서 빌런 역할을 담당하는 경우가 많으며, 플레이어 캐릭터로 사용하는데 제약이 생길 수 있으므로 선택에 참고해주세요.</span><br>";
 
 	  sortedCategories.forEach(([category, score]) => {
 		const interpretation = interpretations[category]?.text || "결과를 불러오지 못 했습니다.";
@@ -456,8 +465,5 @@
 	  });
 	});
   </script>
-
-<img src="https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/01.webp" style="width: 30px; height: auto; vertical-align: middle; margin-right: 10px">
-	
 </body>
 </html>
