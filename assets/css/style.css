@@ -440,7 +440,7 @@ label[for="toggleshare"] {
 	width: 90%;
 	display: grid;
 	gap: 1rem;
-	padding: 2vh 2vw 2vh 2vw;
+	padding: 0vh 2vw 2vh 2vw;
 	align-content: start;
 	justify-items: center;
 }
