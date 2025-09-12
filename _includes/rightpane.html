@@ -30,17 +30,13 @@
 			{% endfor %}
 		</ul>
 	</div>
-	<!-- Categories Section 
-	<!-- Lists all categories used across posts, sorted alphabetically. -->
+	<!-- Categories Section  Lists all categories used across posts, sorted alphabetically.
 	<h2>카테고리</h2>
 	<ul>
-		<!-- Get and sort all categories from the site. -->
 		{% assign all_categories = site.categories | sort %}
 		{% for category in all_categories %}
 			<li>
-				<!-- Link to the category page, with a slugified version of the category name. -->
 				<a class="rp-post-link" href="{{ site.baseurl }}/categories/{{ category[0] | slugify }}/">
-					<!-- Display the name of the category with a medium heading. -->
 					<h4 class="rp-post-title">{{ category[0] }}</h4>
 				</a>
 			</li>
