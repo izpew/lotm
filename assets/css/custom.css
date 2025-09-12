@@ -1,3 +1,5 @@
+:root { --accent: white; }
+
 tbody tr:nth-child(even) { background: none; }
 button { border-raius: 0px; background-color: rgba(0,0,0,0.2); }
 .chapters-container { padding-top: 0vh; padding-left: 2vw; }
