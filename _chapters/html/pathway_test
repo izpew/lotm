@@ -1,0 +1,466 @@
+
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #aaa;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #ccc;
+    }
+    td.question-text {
+      text-align: left;
+    }
+    .submit-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+    }
+    #result {
+      margin-top: 30px;
+    }
+	.icon { width: 30px; height: auto; vertical-align: middle; margin-right: 10px }
+	.name { padding-bottom: 6px; border-bottom: 2px solid #444; font-size: 1.2em; font-weight: bold }
+  </style>
+</head>
+<body>
+
+  <h1>나에게 적합한 초월자 경로는?</h1>
+  <p>테스트를 통해 22개의 경로 중 당신의 성향에 가장 적합한 특성 세 가지를 탐색합니다.<br>각 문항을 읽어보고 플레이어 또는 캐릭터의 입장에서 흥미를 느끼는 정도에 체크해주세요.</p>
+
+  <form id="surveyForm">
+    <table id="questionTable">
+      <thead>
+        <tr>
+          <th>번호</th>
+          <th>문항</th>
+          <th>약간</th>
+          <th>보통</th>
+          <th>많이</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 질문 항목은 JS로 생성됨 -->
+      </tbody>
+    </table>
+
+    <div class="submit-container">
+      <button type="submit">제출</button>
+    </div>
+  </form>
+
+  <div id="result"></div>
+
+  <!-- ✅ 질문 데이터 삽입 (로컬 테스트용 JSON) -->
+  <script id="questionData" type="application/json">
+    [
+      {
+        "id": "q1",
+        "text": "제약과 책임이 부과되더라도 공인된 조직에서 일하며 급여를 받고 싶다.",
+        "category": ["05선원", "06찬양자", "07열람자", "10불면자", "19학자"]
+      },
+      {
+        "id": "q2",
+        "text": "위와 반대로 최대한 간섭받지 않고 자유롭게 활동하는 쪽이 편하다.",
+        "category": ["01점술가", "02도제", "03약탈자", "04관중", "18비밀탐구자"]
+      },
+      {
+        "id": "q3",
+        "text": "무엇보다도 근력을 비롯한 신체 능력이 뛰어나야 한다.",
+        "category": ["05선원", "09시체수거자", "10불면자", "11전사", "14사냥꾼"]
+      },
+      {
+        "id": "q4",
+        "text": "위기 상황에서 판단은 직감에 맡기는 편이 좋다.",
+        "category": ["01점술가", "09시체수거자", "10불면자", "16범죄자", "22괴물"]
+      },
+      {
+        "id": "q5",
+        "text": "의식 마법을 통해 적절한 도움을 받기를 원한다.",
+        "category": ["02도제", "03약탈자", "06찬양자", "08비밀탄원자", "18비밀탐구자"]
+      },
+      {
+        "id": "q6",
+        "text": "아군을 치료하거나 강화시키는 역할을 맡고 싶다.",
+        "category": ["04관중", "06찬양자", "20약사", "21경작자"]
+      },
+      {
+        "id": "q7",
+        "text": "돈을 쉽게 벌 수 있는 능력이 필요하다.",
+        "category": ["03약탈자", "12변호사", "20약사", "19학자"]
+      },
+      {
+        "id": "q8",
+        "text": "점술을 해독해서 결과를 도출하는 능력은 유용할 것 같다.",
+        "category": ["01점술가", "02도제", "18비밀탐구자", "22괴물"]
+      },
+      {
+        "id": "q9",
+        "text": "세계의 숨겨진 진실과 비밀을 밝히는 것은 도전할만한 일이다.",
+        "category": ["07열람자", "18비밀탐구자", "19학자"]
+      },
+      {
+        "id": "q10",
+        "text": "화술과 매력을 통해 타인을 유도하거나 조종하는 일에 흥미있다.",
+        "category": ["03약탈자", "04관중", "12변호사"]
+      },
+      {
+        "id": "q11",
+        "text": "무언가를 만들거나 키워내서 활용하는 편리함을 추구한다.",
+        "category": ["19학자", "20약사", "21경작자"]
+      },
+      {
+        "id": "q12",
+        "text": "광기나 욕망을 힘으로 이용하는 것이 두렵지 않다.",
+        "category": ["08비밀탄원자", "16범죄자", "17수감자"]
+      },
+      {
+        "id": "q13",
+        "text": "지식(앎)을 추구하기 위해 리스크를 감수할 수 있다.",
+        "category": ["07열람자", "18비밀탐구자", "22괴물"]
+      },
+      {
+        "id": "q14",
+        "text": "목적이 있든 없든 남을 살해할 필요가 있다면 망설이지 않는다.",
+        "category": ["14사냥꾼", "15암살자", "16범죄자"]
+      },
+      {
+        "id": "q15",
+        "text": "퇴마에 특화된 능력을 가지고 싶다.",
+        "category": ["06찬양자", "11전사"]
+      },
+      {
+        "id": "q16",
+        "text": "괴물이나 영혼 등 인간이 아닌 존재에 가까워지는 일에 흥미있다.",
+        "category": ["11시체수거자", "17수감자"]
+      },
+      {
+        "id": "q17",
+        "text": "민첩하거나 은밀하게 행동할 수 있었으면 한다.",
+        "category": ["03약탈자", "15암살자"]
+      },
+      {
+        "id": "q18",
+        "text": "규칙을 따르는 것보다 규칙을 정하는 사람이 되고 싶다.",
+        "category": ["12변호사", "13중재자"]
+      },
+      {
+        "id": "q19",
+        "text": "다양한 무기를 다룰 수 있다면 편리할 것이다.",
+        "category": ["07열람자", "11전사"]
+      },
+      {
+        "id": "q20",
+        "text": "잡기술에 가까울지라도 마술을 구사하고 싶다.",
+        "category": ["01점술가", "02도제"]
+      },
+      {
+        "id": "q21",
+        "text": "자신이 믿는 신을 위해 스스로를 기꺼이 희생하고자 한다.",
+        "category": ["08비밀탄원자", "06찬양자"]
+      },
+      {
+        "id": "q22",
+        "text": "우수한 방어력을 지니고 싶다.",
+        "category": ["05선원", "11전사"]
+      },
+      {
+        "id": "q23",
+        "text": "압박이나 위협은 사람들을 제어하기에 유효한 수단이다.",
+        "category": ["12변호사", "13중재자"]
+      },
+      {
+        "id": "q24",
+        "text": "사건을 파악하는 데에는 관찰력과 연역적인 사고력만 있으면 충분하다.",
+        "category": ["04관중", "07열람자"]
+      },
+      {
+        "id": "q25",
+        "text": "사람을 추적하는 능력이 뛰어났으면 한다.",
+        "category": ["13중재자", "14사냥꾼"]
+      },
+      {
+        "id": "q26",
+        "text": "폭발물을 잘 다루는 전문가가 되고 싶다.",
+        "category": ["13중재자", "17수감자"]
+      },
+      {
+        "id": "q27",
+        "text": "계산하고 분석하는 방면의 지능이 발달하길 바란다.",
+        "category": ["19학자", "22괴물"]
+      },
+      {
+        "id": "q28",
+        "text": "위계 질서를 따르고 상급자에게 충성하는 것에 거부감이 없다.",
+        "category": ["05선원", "11시체수거자"]
+      },
+      {
+        "id": "q29",
+        "text": "선동과 모략으로 타인을 함정이나 재난에 빠트리는 짓은 즐겁다.",
+        "category": ["14사냥꾼", "15암살자"]
+      },
+      {
+        "id": "q30",
+        "text": "표정과 몸짓만으로 남을 속이고 싶다.",
+        "category": ["01점술가"]
+      },
+      {
+        "id": "q31",
+        "text": "벽을 통과하는 등 공간에 구애받지 않고 자유롭게 이동하고 싶다.",
+        "category": ["02도제"]
+      },
+      {
+        "id": "q32",
+        "text": "사람들의 심리 상태나 진정한 속마음이 궁금하다.",
+        "category": ["04관중"]
+      },
+      {
+        "id": "q33",
+        "text": "물속에서 자유롭게 숨쉬며 움직이고 싶다.",
+        "category": ["05선원"]
+      },
+      {
+        "id": "q34",
+        "text": "죽은 자와 대화를 나눌 수 있었으면 좋겠다.",
+        "category": ["09시체수거자"]
+      },
+      {
+        "id": "q35",
+        "text": "주문 대신 시를 읊어 능력을 발휘한다면 낭만적일 것이다.",
+        "category": ["10불면자"]
+      },
+      {
+        "id": "q36",
+        "text": "하루에 두세 시간만 잠을 자도 멀쩡하다면 유용할 것 같다.",
+        "category": ["10불면자"]
+      },
+      {
+        "id": "q37",
+        "text": "키와 몸집은 크면 클수록 좋다.",
+        "category": ["11전사"]
+      },
+      {
+        "id": "q38",
+        "text": "나를 따르는 동물 파트너를 원한다.",
+        "category": ["20약사"]
+      },
+      {
+        "id": "q39",
+        "text": "식물을 재배하고 돌보는 일에 관심이 있다.",
+        "category": ["21경작자"]
+      },
+      {
+        "id": "q40",
+        "text": "결국은 운이 모든 것을 좌우한다.",
+        "category": ["22괴물"]
+      }
+    ]
+  </script>
+
+  <!-- ✅ 해석 데이터 삽입 (로컬 테스트용 JSON) -->
+  <script id="interpretationData" type="application/json">
+    {
+      "01점술가": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/01.webp\" class=\"icon\">점술가 | 신비와 점술 영역의 전문가</p><p>적에게 직접적으로 대항할 수단은 부족하지만, 다양한 점술 능력을 이용하여 원하는 정보를 알아낼 수 있다. 그러나 점술로 얻은 계시에는 해독이 필요하며, 점술 결과를 맹신하거나 의존해서는 안된다. 뛰어난 영성 직감을 통해 위험을 감지하고 신비학 지식을 탐구하기 적합한 경로이다.</p>",
+        "priority": 1
+      },
+      "02도제": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/02.webp\" class=\"icon\">도제 | 문을 여는 영계의 견습 마술사 </p><p>신체능력 자체는 뛰어나지는 않으나 영계의 특수성을 이용하여 벽이나 장애물을 관통할 수 있으며, 자물쇠를 따거나 구속에서 빠져나오는 등 공간적인 측면에서 마술같은 능력을 발휘한다. 영계와 일정한 연관을 가지는 이들은 일부 영체를 볼 수도 있다.</p>",
+        "priority": 2
+      },
+      "03약탈자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/03.webp\" class=\"icon\">약탈자 | 무엇이든 훔쳐내는 절도의 달인</p><p>이 경로의 초월자를 일반적인 강도나 좀도둑과 구분하기는 쉽지 않다. 민첩함과 손재주 방면으로 향상된 신체능력을 가지며 각종 도구를 잘 다룰 수 있게 된다. 가치 있는 물건이 어디에 있는지 발견하는 능력을 가진 그들은 상대에게 들키지 않고 그 물건을 훔쳐낼 수도 있다.</p>",
+        "priority": 3
+      },
+      "04관중": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/04.webp\" class=\"icon\">관중 | 사교회장의 은밀한 관찰자</p><p>오페라나 연극을 관람하듯 철저히 객관적인 입장에서 타인을 바라보며 표정과 몸짓, 말버릇, 무의식적인 행동을 통해 그 사람의 생각을 읽어낼 수 있다. 예리한 관찰력과 말솜씨로 주변에 교묘한 영향을 미치고 암암리에 유도하여 자신이 원하는 방향으로 사건이 나아가도록 만든다.</p>",
+        "priority": 4
+      },
+      "05선원": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/05.webp\" class=\"icon\">선원 | 폭풍을 누비는 바다의 민족</p><p>피부 아래에 숨겨진 허상의 비늘에 의해 일반적인 공격에는 피해를 입지 않는 강건한 육체는 물론, 수중에서 호흡이 가능해지고 헤엄 실력과 평형 감각이 출중해진다. 그러한 이점을 살려 이들은 대부분 해상에서 직업 선원이나 해적으로 활동하고는 하지만, 육지에서도 충분히 제 힘을 발휘한다.</p>",
+        "priority": 5
+      },
+      "06찬양자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/06.webp\" class=\"icon\">찬양자 | 태양을 찬미하는 사제</p><p>이 경로의 초월자는 전통적인 신관의 이미지에 부합하며, 그들의 숭배 대상인 태양을 찬미하는 노래를 통해 아군에게 활력과 용기를 부여한다. 또한 심리적인 안정을 주어 광기를 지연시키고, 시체나 영체를 정화시키거나 그에 의한 부정적인 영향을 제거할 수 있다.</p>",
+        "priority": 13
+      },
+      "07열람자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/07.webp\" class=\"icon\">열람자 | 지식의 비축고이자 탐독가</p><p>사고력과 이해력을 비롯한 학습 능력이 크게 향상되어 지식이나 정보를 손쉽게 기억하고 떠올려낼 수 있다. 뛰어난 속독 실력을 지닌 그들은 어떤 언어든 빠르게 통달할 수 있으며, 이러한 특성으로 비축한 지식을 통해 기초적이지만 다양한 의식 마법을 사용할 수 있게 된다.</p>",
+        "priority": 7
+      },
+      "08비밀탄원자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/08.webp\" class=\"icon\">비밀탄원자 | 타락에게 번제물을 바치는 자 ★</p><p>이 경로의 초월자는 높은 영감을 통해 사악하고 공포스러운 존재를 감지할 수 있으며, 그런 방식으로 이어진 강력한 존재로부터 특수한 제사 방법이나 의식 마법을 전수받는다. 하지만 그탓에 이들은 인식이 왜곡되어 오염되거나 통제불능의 상태에 이르기 쉽다.</p>",
+        "priority": 20
+      },
+      "09시체수거자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/09.webp\" class=\"icon\">시체수거자 | 창백한 영혼의 묘지기</p><p>영체를 볼 수 있는 그들은 특유의 음산한 기질에 의해 동류로 인식되어 지능이 없는 유령에게는 공격당하지 않는다. 시체를 해부하여 망자나 불사 생물에 대한 지식과 이해를 얻을 수 있으며, 신체능력도 상당 부분 향상되어 부패나 냉기, 저주 등에 일정한 저항력을 가진다.</p>",
+        "priority": 8
+      },
+      "10불면자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/10.webp\" class=\"icon\">불면자 | 잠들지 않는 밤의 권속 </p><p>어둠 속에서도 뚜렷한 시력을 유지하는 암시야를 가지며, 숙면하지 않아도 하루에 서너 시간 휴식하는 것만으로 일상생활을 영위할 수 있다. 이들의 힘은 밤이 깊을수록 더욱 충만해지고, 신체능력과 영감 또한 증가하여 어둠 속에 숨은 미지의 위험이나 존재를 예민하게 감지할 수 있다.</p>",
+        "priority": 9
+      },
+      "11전사": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/11.webp\" class=\"icon\">전사 | 영광스러운 거인의 후예</p><p>공격과 방어 어느 측면에서든 강력한 전투능력을 지녔다. 모든 종류의 무기와 방어구를 다룰 수 있으며, 어떤 유파의 격투술이라도 금세 파악해낸다. 이 경로의 초월자는 체력과 신장이 꾸준히 증가하며 본래의 키나 승급한 서열에 따라 평균적으로는 2미터 전후, 최대 3미터까지도 도달할 수 있다.</p>",
+        "priority": 14
+      },
+      "12변호사": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/13.webp\" class=\"icon\">변호사 | 규칙을 조작하는 웅변가</p><p>법과 규칙의 허점을 찾아내어 상대의 사고에 영향을 미친다. 이들의 변론 및 교섭 실력은 매우 뛰어나며, 그로 인한 인격적 매력은 외모와 상관없이 이들을 돋보이게 한다. 사람이나 사물, 그 어떤 것이든 그 안에 질서가 존재하는 한 모순을 발견하고 그것을 왜곡하려 시도할 수 있다.</p>",
+        "priority": 10
+      },
+      "13중재자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/12.webp\" class=\"icon\">중재자 | 질서와 균형의 심판관</p><p>다른 사람을 설득하거나 따르게 만들기에 충분한 매력과 권위를 가지며, 말로는 해결되지 않을 상황을 대비하여 기교 방면의 신체능력 또한 뛰어난 편이다. 이 경로의 초월자는 사람들 간의 분쟁에서 중재 역할을 맡아 판결을 내릴 수 있으며, 문제를 해결할 때마다 명성과 신용을 얻는다.</p>",
+        "priority": 11
+      },
+      "14사냥꾼": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/14.webp\" class=\"icon\">사냥꾼 | 사냥감을 쫓는 추적자</p><p>이들은 추적과 함정의 전문가이며, 주변이 어떠한 환경이라도 관찰하고 적응하여 이용하는데 능하다. 신체능력은 골고루 향상되어 격투와 회피에 큰 이점을 가지고,다양한 종류의 함정을 만들 수 있다. 가장 크고 번화한 도시조차 이들에게는 사냥터에 불과하다. </p>",
+        "priority": 12
+      },
+      "15암살자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/15.webp\" class=\"icon\">암살자 | 그림자 속에 숨은 자객 ★</p><p>단시간이지만 신체를 깃털처럼 가볍게 변화시켜 숨거나 도약하거나 착지하는 등의 은밀하고 민첩한 행동이 가능하다. 집중할 경우 맹금류 수준의 시력으로 1킬로미터 밖의 목표도 포착할 수 있으며 암시야 또한 적용된다. 급소를 찾아 일격에 치명타를 가하는 암살 능력을 가진다.</p>",
+        "priority": 21
+      },
+      "16범죄자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/16.webp\" class=\"icon\">범죄자 | 욕망의 고삐를 푼 악마 ★</p><p>강건한 육체와 예민한 지각을 가진 그들은 자신에게 닥칠 위험을 감지하는 능력이 그 어떤 경로보다도 탁월하다. 범죄를 저지를수록 사악한 욕구에 도취되며 이성을 회복할 수도 있으나, 이 단계에서 그들은 아직 충분히 냉혹하지는 못하며 양심이 남아있다.</p>",
+        "priority": 22
+      },
+      "17수감자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/17.webp\" class=\"icon\">수감자 | 육체에 속박된 돌연변이 ★</p><p>이 경로의 초월자는 뮤턴트라고도 불리우며, 평소에는 침묵과 절제로 광기와 욕망을 가두고 있지만, 보름달과 같은 특정한 자극을 만나면 폭발하게 된다. 신체능력과 지각능력이 뛰어난 것은 물론 승급할 때마다 늑대인간을 비롯한 다양한 뮤턴트 생물의 능력을 얻는다.</p>",
+        "priority": 19
+      },
+      "18비밀탐구자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/18.webp\" class=\"icon\">비밀탐구자 | 장막 뒤를 엿보는 자 </p><p>신비학 방면으로 초보적이지만 폭넓은 지식을 가진 이들은 기본적인 점술 능력을 가지며 의식 마법에 특히 정통하지만, 그러한 지식을 얻는 과정에서 숨겨진 비밀스러운 존재를 감지하여 위험에 빠지기도 한다. 그러므로 반드시 조심스럽게 행동해야 한다.</p>",
+        "priority": 15
+      },
+      "19학자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/19.webp\" class=\"icon\">학자 | 공예에 능통한 만물박사</p><p>이들의 지식은 과학이나 기술 등 현실의 학문에 치우쳐 있으며, 빠른 학습능력과 뛰어난 기억력, 제조 실력으로 무엇이든 금세 익히고 만들어낼 수 있다. 이 단계에서는 도구나 무기, 니트로글리세린과 같은 기초적인 폭발물을 손쉽게 제조하지만 결과물에 아직 초월적인 힘은 없다.</p>",
+        "priority": 6
+      },
+      "20약사": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/20.webp\" class=\"icon\">약사 | 생명을 치유하는 달</p><p>약학과 화학에 관련된 지식을 파악하고 뛰어난 효과를 지닌 약물을 조제한다. 회복, 진통, 진정 같은 치료제부터 맹독, 산성, 폭발 같은 공격계까지 다양한 레시피를 알고, 이러한 약물에 대한 자체적인 저항력도 강한 편이다. 식물이나 동물을 키워내 그로부터 원하는 재료를 얻어낼 수도 있다.</p>",
+        "priority": 17
+      },
+      "21경작자": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/21.webp\" class=\"icon\">경작자 | 대지를 돌보는 모성</p><p>농업에 뛰어난 소질을 가진 이들은 일반적인 식물은 물론 초월적인 힘을 지닌 일부 식물들까지도 재배할 수 있다. 온도나 토양을 비롯한 작물을 길러내는데 필요한 각종 지식에 해박하며, 일주일 이내의 날씨를 예측하고 그에 따른 대처능력을 발휘하여 농사를 성공시킨다.</p>",
+        "priority": 18
+      },
+      "22괴물": {
+        "text": "<p class=\"name\"><img src=\"https://raw.githubusercontent.com/izpew/lotm/main/assets/img/pathway/22.webp\" class=\"icon\">괴물 | 불확실한 운명의 전도사</p><p>이 경로의 초월자는 몹시 특수하다. 극도로 높은 영감을 통해 남들이 듣거나 보지 못하는 것을 인식하는 이들은 이따금씩 미래에 일어날 사건을 엿보고 위험을 예민하게 감지하지만, 그러한 몽롱한 상태에 곧잘 도취되어 주변 사람들에게 괴물이라고 배척당한다.</p>",
+        "priority": 16
+      }
+    }
+  </script>
+
+  <!-- ✅ JS 로직 -->
+  <script>
+    // JSON 파싱 (스크립트 태그에서)
+    const questions = JSON.parse(document.getElementById('questionData').textContent);
+    const interpretations = JSON.parse(document.getElementById('interpretationData').textContent);
+
+    // 질문 렌더링
+    const tableBody = document.querySelector("#questionTable tbody");
+
+    questions.forEach((q, index) => {
+      const tr = document.createElement("tr");
+
+      const numberTd = document.createElement("td");
+      numberTd.textContent = index + 1;
+
+      const textTd = document.createElement("td");
+      textTd.textContent = q.text;
+      textTd.className = "question-text";
+
+      const options = [1, 2, 3]; // 아니다, 보통, 그렇다
+      const optionTds = options.map(value => {
+        const td = document.createElement("td");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = q.id;
+        input.value = value;
+        input.dataset.category = JSON.stringify(q.category);
+        td.appendChild(input);
+        return td;
+      });
+
+      tr.appendChild(numberTd);
+      tr.appendChild(textTd);
+      optionTds.forEach(td => tr.appendChild(td));
+
+      tableBody.appendChild(tr);
+    });
+
+    // 제출 처리
+	document.getElementById('surveyForm').addEventListener('submit', function(event) {
+	  event.preventDefault();
+
+	  const resultDiv = document.getElementById('result');
+	  const allRows = document.querySelectorAll("#questionTable tbody tr");
+
+	  let allAnswered = true;
+
+	  allRows.forEach(row => {
+		const radioButtons = row.querySelectorAll('input[type="radio"]');
+		const isChecked = Array.from(radioButtons).some(input => input.checked);
+
+		// ✅ 응답 안 한 경우: 하이라이트
+		if (!isChecked) {
+		  row.style.backgroundColor = "#f8f8f8"; // 연한 빨간색 배경
+		  allAnswered = false;
+		} else {
+		  row.style.backgroundColor = ""; // ✅ 응답한 경우: 기존 스타일로 되돌림
+		}
+	  });
+
+	  if (!allAnswered) {
+		resultDiv.innerHTML = "<p style='color:red; font-weight:bold;'>모든 항목에 응답해 주세요.</p>";
+		return;
+	  }
+
+	  // ✅ 모든 항목에 응답했다면 기존 점수 처리
+	  const selectedInputs = document.querySelectorAll('input[type="radio"]:checked');
+	  const categoryScores = {};
+
+	  selectedInputs.forEach(input => {
+		const categories = JSON.parse(input.dataset.category);
+		const score = parseInt(input.value);
+
+		categories.forEach(category => {
+		  if (!categoryScores[category]) {
+			categoryScores[category] = 0;
+		  }
+		  categoryScores[category] += score;
+		});
+	  });
+
+	  const sortedCategories = Object.entries(categoryScores)
+		.sort((a, b) => {
+		  if (b[1] !== a[1]) return b[1] - a[1];
+		  const pa = interpretations[a[0]]?.priority ?? 999;
+		  const pb = interpretations[b[0]]?.priority ?? 999;
+		  return pa - pb;
+		})
+		.slice(0, 3);
+
+	  resultDiv.innerHTML = "<h2>테스트 결과 추천하는 상위 3개 경로</h2><span style='color:red; font-size:0.8em'>★이 붙어있는 경로는 특성 상 시나리오 중에서 빌런 역할을 담당하는 경우가 많으며, 플레이어 캐릭터로 사용하는데 제약이 생길 수 있으므로 선택에 참고해주세요.</span><br>";
+
+	  sortedCategories.forEach(([category, score]) => {
+		const interpretation = interpretations[category]?.text || "결과를 불러오지 못 했습니다.";
+		resultDiv.innerHTML += `${interpretation}`;
+	  });
+	});
+  </script>
+</body>
+</html>
