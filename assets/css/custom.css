@@ -10,3 +10,11 @@
 	margin: auto;
 	text-align: center;
 }
+button {
+	padding: 10px;
+	font-size: 20px;
+	flex-shrink: 0;
+	color: #000000;
+	background: none;
+	border-raius: none;
+}
