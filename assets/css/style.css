@@ -284,13 +284,13 @@ blockquote {
 	color: var(--grey1);
 }
 .post-postcontent {
-	max-width: 95%;
+	max-width: 100%;
 	margin-top: 10px;
-	text-align: center;
+	text-align: left;
 }
 .post-posttitle {
 	margin: auto;
-	text-align: center;
+	text-align: left;
 }
 
 .language-plaintext.highlighter-rouge {
