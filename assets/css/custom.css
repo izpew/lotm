@@ -2,5 +2,6 @@ tbody tr:nth-child(even) { background: none; }
 button { border-raius: 0px; }
 
 .chapters-container { padding-top: 0vh; padding-left: 2vw; }
+.post-navigation { padding-bottom: 20px; }
 .post { margin-left: 2vw; }
 @media screen and (max-width: 768px) { .post { margin: auto; } }
