@@ -1,5 +1,5 @@
-tbody tr:nth-child(even) { background-color: none; }
-button { border-raius: none; }
+tbody tr:nth-child(even) { background: none; }
+button { border-raius: 0px; }
 
 .chapters-container { padding-top: 0vh; padding-left: 2vw; }
 
