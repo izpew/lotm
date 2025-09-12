@@ -4,11 +4,11 @@
 }
 .post-postcontent {
 	margin-top: 10px;
-	text-align: center;
+	text-align: left;
 }
 .post-posttitle {
 	margin: auto;
-	text-align: center;
+	text-align: left;
 }
 button {
 	padding: 10px;
