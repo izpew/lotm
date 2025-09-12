@@ -288,15 +288,6 @@ blockquote {
 	margin-top: 10px;
 	text-align: center;
 }
-
-.post-postcontent img {
-	object-fit: contain;
-	width: 75%;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
-
 .post-posttitle {
 	margin: auto;
 	text-align: center;
